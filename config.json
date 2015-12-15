@@ -1,0 +1,30 @@
+{
+    "title": "Site title",
+    "description:": "Site description.",
+    "url": "http://xxxx.jaysalvat.com",
+    "analytics": "UA-111088-xx",
+    "navigation": {
+        "home": {
+            "title": "Home",
+            "url": "/"
+        },
+        "about": {
+            "title": "About",
+            "url": "/about"
+        },
+        "Documentation": {
+            "title": "Documentation",
+            "url": "/documentation",
+            "navigation": {
+                "gettingstarted": {
+                    "title": "Getting started",
+                    "url": "/documention/getting-started"
+                },
+                "settings": {
+                    "title": "Settings",
+                    "url": "/documention/settings"
+                }
+            }
+        }
+    }
+}

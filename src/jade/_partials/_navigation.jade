@@ -1,0 +1,14 @@
+
+.container
+  .row
+    .medium-12
+      ul
+        each page, key in navigation
+          li(class=(selected === key ? "active" : ""))
+            a(href=page.url)= page.title
+
+            if (page.navigation)
+              ul
+                each subpage, subkey in page.navigation
+                  li(class=(selected === subkey ? "active" : ""))
+                    a(href=subpage.url)= subpage.title

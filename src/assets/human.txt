@@ -1,0 +1,16 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+                        
+    Jay Salvat
+    Email: jay.salvat [at] gmail.com
+    Twitter: @jaysalvat
+    Location: Sophia-Antipolis, France
+                            
+# TECHNOLOGY COLOPHON
+
+    Doctype: HTML5
+    Components: Flin
+
+# THANKS
