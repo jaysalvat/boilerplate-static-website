@@ -22,7 +22,7 @@ gulp.task('delete', function(next) {
 });
 
 gulp.task('bower', function() {
-    return gulp.src([ 'bower_components/**/*.*' ])
+    return gulp.src([ 'bower_components/**/*' ])
         .pipe(gulp.dest('dist/bower_components/'));
 });
 
@@ -120,7 +120,7 @@ gulp.task('reload', function () {
 gulp.task('build', [ 'delete', 'bower', 'js', 'coffee', 'sass', 'jade', 'img', 'assets' ]);
 
 gulp.task('watch', [ 'serve' ], function() {
-    gulp.watch('bower/**/*',             [ 'bower',  ]);
+    gulp.watch('bower_components/**/*',  [ 'bower',  ]);
     gulp.watch('src/img/**/*',           [ 'img',    ]);
     gulp.watch('src/js/**/*.js',         [ 'js',     ]);
     gulp.watch('src/coffee/**/*.coffee', [ 'coffee', ]);
