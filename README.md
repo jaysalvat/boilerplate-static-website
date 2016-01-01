@@ -25,3 +25,7 @@ Watch and open server on another port
 Watch and open server with no sync between browers
 
     gulp watch --nosync
+
+Bump manifest versions
+
+    gulp bump --[major,minor,patch,prerelease]
