@@ -1,3 +1,5 @@
+/* jshint strict: false */
+
 var del         = require('del'),
     jade        = require('jade'),
     gulp        = require('gulp'),
@@ -9,9 +11,14 @@ var del         = require('del'),
 // Args
 
 var argv = yargs
-    .default('port',   3000)
-    .default('dev',    false)
-    .default('nosync', false)
+    .default('port',       3000)
+    .default('dev',        false)
+    .default('nosync',     false)
+    .default('major',      false)
+    .default('minor',      false)
+    .default('patch',      true)
+    .default('prerelease', false)
+    .boolean([ 'major', 'minor', 'patch' ])
     .argv;
 
 // Gulp
@@ -117,6 +124,24 @@ gulp.task('reload', function () {
     return browserSync.reload();
 });
 
+gulp.task('bump', function () {
+    var version = 'patch';
+
+    if (argv.major) {
+        version = 'major';
+    } else if (argv.minor) {
+        version = 'minor';
+    } else if (argv.prerelease) {
+        version = 'prerelease';
+    }
+
+    return gulp.src([ './package.json', './bower.json', ] )
+        .pipe(plugins.bump({
+            type: version
+        }))
+        .pipe(gulp.dest('./'));
+});
+
 gulp.task('build', [ 'delete', 'bower', 'js', 'coffee', 'sass', 'jade', 'img', 'assets' ]);
 
 gulp.task('watch', [ 'serve' ], function() {
@@ -181,3 +206,4 @@ function syntax (string) {
 // npm i -D gulp-coffee
 // npm i -D gulp-sourcemaps
 // npm i -D gulp-uglify
+// npm i -D gulp-bump
