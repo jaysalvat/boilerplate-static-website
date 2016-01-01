@@ -1,5 +1,19 @@
 #!/bin/bash
 
+echo "Name of the project: "
+read name
+
+echo "Description of the project: "
+read description
+
+sed -i "" -e 's/"name": "xxxx"/"name": "'"$name"'"/' bower.json
+
+sed -i "" -e 's/"name": "xxxx"/"name": "'"$name"'"/' package.json
+sed -i "" -e 's/"description": "xxxx"/"description": "'"$description"'"/' package.json
+
+sed -i "" -e 's/"title": "xxxx"/"title": "'"$name"'"/' config.json
+sed -i "" -e 's/"description": "xxxx"/"description": "'"$description"'"/' config.json
+
 rm -fr .git
 git init
 rm -fr init
