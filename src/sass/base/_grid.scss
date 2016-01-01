@@ -1,15 +1,19 @@
-$screen-tiny:          480px !default;
-$screen-small:         768px !default;
-$screen-medium:        992px !default;
-$screen-large:        1200px !default;
-  
-$container-small:      750px !default;
-$container-medium:     970px !default;
-$container-large:     1170px !default;
-  
-$grid-columns:            12 !default;
-$grid-gutter-width:     30px !default;
-$grid-gutter:           $grid-gutter-width / 2 !default;
+$screen-tiny:            480px !default;
+$screen-small:           768px !default;
+$screen-medium:          992px !default;
+$screen-large:          1200px !default;
+
+$grid-container-small:   750px !default;
+$grid-container-medium:  970px !default;
+$grid-container-large:  1170px !default;
+
+$grid-columns:              12 !default;
+$grid-gutter-width:       30px !default;
+$grid-gutter:             $grid-gutter-width / 2 !default;
+
+$grid-include-pull:      false !default;;
+$grid-include-push:      false !default;;
+$grid-include-offset:    false !default;;
 
 // ---------
 
@@ -53,19 +57,19 @@ $grid-gutter:           $grid-gutter-width / 2 !default;
 
 @media (min-width: $screen-small) {
     .container {
-        width: $container-small;
+        width: $grid-container-small;
     }
 }
 
 @media (min-width: $screen-medium) {
     .container {
-        width: $container-medium;
+        width: $grid-container-medium;
     }
 }
 
 @media (min-width: $screen-large) {
     .container {
-        width: $container-large;
+        width: $grid-container-large;
     }
 }
 
@@ -90,7 +94,7 @@ $grid-gutter:           $grid-gutter-width / 2 !default;
     padding-left: $grid-gutter;
     padding-right: $grid-gutter;
 }
- 
+
 @for $i from 1 through $grid-columns {
     .tiny-#{$i},
     .small-#{$i},
@@ -113,29 +117,35 @@ $grid-gutter:           $grid-gutter-width / 2 !default;
     }
 }
 
-.tiny-pull-0 {
-  left: auto;
-}
+@if ($grid-include-pull) {
+    .tiny-pull-0 {
+      left: auto;
+    }
 
-@for $i from 1 through $grid-columns {
-    .tiny-pull-#{$i} {
-      left: $i / $grid-columns * 100%;
+    @for $i from 1 through $grid-columns {
+        .tiny-pull-#{$i} {
+          left: $i / $grid-columns * 100%;
+        }
     }
 }
 
-.tiny-push-0 {
-  right: auto;
-}
+@if ($grid-include-push) {
+    .tiny-push-0 {
+      right: auto;
+    }
 
-@for $i from 1 through $grid-columns {
-    .tiny-push-#{$i} {
-      right: $i / $grid-columns * 100%;
+    @for $i from 1 through $grid-columns {
+        .tiny-push-#{$i} {
+          right: $i / $grid-columns * 100%;
+        }
     }
 }
 
-@for $i from 1 through $grid-columns {
-    .tiny-offset-#{$i} {
-      margin-left: $i / $grid-columns * 100%;
+@if ($grid-include-offset) {
+    @for $i from 1 through $grid-columns {
+        .tiny-offset-#{$i} {
+          margin-left: $i / $grid-columns * 100%;
+        }
     }
 }
 
@@ -153,29 +163,35 @@ $grid-gutter:           $grid-gutter-width / 2 !default;
         }
     }
 
-    .small-pull-0 {
-      left: auto;
-    }
+    @if ($grid-include-pull) {
+        .small-pull-0 {
+          left: auto;
+        }
 
-    @for $i from 1 through $grid-columns {
-        .small-pull-#{$i} {
-          left: $i / $grid-columns * 100%;
+        @for $i from 1 through $grid-columns {
+            .small-pull-#{$i} {
+              left: $i / $grid-columns * 100%;
+            }
         }
     }
 
-    .small-push-0 {
-      right: auto;
-    }
+    @if ($grid-include-push) {
+        .small-push-0 {
+          right: auto;
+        }
 
-    @for $i from 1 through $grid-columns {
-        .small-push-#{$i} {
-          right: $i / $grid-columns * 100%;
+        @for $i from 1 through $grid-columns {
+            .small-push-#{$i} {
+              right: $i / $grid-columns * 100%;
+            }
         }
     }
 
-    @for $i from 1 through $grid-columns {
-        .small-offset-#{$i} {
-          margin-left: $i / $grid-columns * 100%;
+    @if ($grid-include-offset) {
+        @for $i from 1 through $grid-columns {
+            .small-offset-#{$i} {
+              margin-left: $i / $grid-columns * 100%;
+            }
         }
     }
 }
@@ -194,29 +210,35 @@ $grid-gutter:           $grid-gutter-width / 2 !default;
         }
     }
 
-    .medium-pull-0 {
-      left: auto;
-    }
+    @if ($grid-include-pull) {
+        .medium-pull-0 {
+          left: auto;
+        }
 
-    @for $i from 1 through $grid-columns {
-        .medium-pull-#{$i} {
-          left: $i / $grid-columns * 100%;
+        @for $i from 1 through $grid-columns {
+            .medium-pull-#{$i} {
+              left: $i / $grid-columns * 100%;
+            }
         }
     }
 
-    .medium-push-0 {
-      right: auto;
-    }
+    @if ($grid-include-push) {
+        .medium-push-0 {
+          right: auto;
+        }
 
-    @for $i from 1 through $grid-columns {
-        .medium-push-#{$i} {
-          right: $i / $grid-columns * 100%;
+        @for $i from 1 through $grid-columns {
+            .medium-push-#{$i} {
+              right: $i / $grid-columns * 100%;
+            }
         }
     }
 
-    @for $i from 1 through $grid-columns {
-        .medium-offset-#{$i} {
-          margin-left: $i / $grid-columns * 100%;
+    @if ($grid-include-offset) {
+        @for $i from 1 through $grid-columns {
+            .medium-offset-#{$i} {
+              margin-left: $i / $grid-columns * 100%;
+            }
         }
     }
 }
@@ -235,29 +257,35 @@ $grid-gutter:           $grid-gutter-width / 2 !default;
         }
     }
 
-    .large-pull-0 {
-      left: auto;
-    }
+    @if ($grid-include-pull) {
+        .large-pull-0 {
+          left: auto;
+        }
 
-    @for $i from 1 through $grid-columns {
-        .large-pull-#{$i} {
-          left: $i / $grid-columns * 100%;
+        @for $i from 1 through $grid-columns {
+            .large-pull-#{$i} {
+              left: $i / $grid-columns * 100%;
+            }
         }
     }
 
-    .large-push-0 {
-      right: auto;
-    }
+    @if ($grid-include-push) {
+        .large-push-0 {
+          right: auto;
+        }
 
-    @for $i from 1 through $grid-columns {
-        .large-push-#{$i} {
-          right: $i / $grid-columns * 100%;
+        @for $i from 1 through $grid-columns {
+            .large-push-#{$i} {
+              right: $i / $grid-columns * 100%;
+            }
         }
     }
 
-    @for $i from 1 through $grid-columns {
-        .large-offset-#{$i} {
-          margin-left: $i / $grid-columns * 100%;
+    @if ($grid-include-offset) {
+        @for $i from 1 through $grid-columns {
+            .large-offset-#{$i} {
+              margin-left: $i / $grid-columns * 100%;
+            }
         }
     }
 }
