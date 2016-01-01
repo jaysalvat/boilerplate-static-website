@@ -1,3 +1,1 @@
-if (true) {
-    vvvv
-}
+alert('Minified JS ok');

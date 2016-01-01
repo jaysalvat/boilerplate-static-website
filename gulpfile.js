@@ -1,9 +1,9 @@
-var jade        = require('jade'),
+var del         = require('del'),
+    jade        = require('jade'),
     gulp        = require('gulp'),
-    browserSync = require('browser-sync'),
-    del         = require('del'),
-    loadplugins = require('gulp-load-plugins'),
     yargs       = require('yargs'),
+    browserSync = require('browser-sync'),
+    loadplugins = require('gulp-load-plugins'),
     plugins     = loadplugins();
 
 // Args
