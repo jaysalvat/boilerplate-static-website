@@ -1,4 +1,16 @@
 {
-  "name": "xxxx",
-  "version": "0.0.1"
+	"name": "xxxx",
+	"version": "0.0.1",
+	"description": "xxxx",
+	"authors": [
+		"Jay Salvat"
+	],
+	"main": "./dist/index.html",
+	"ignore": [
+		"**/.*",
+		"node_modules",
+		"bower_components",
+		"test",
+		"tests"
+	]
 }

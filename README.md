@@ -2,7 +2,7 @@
 
     npm install
     npm run init
-    gulp build
+    gulp
 
 ## DEV
 
