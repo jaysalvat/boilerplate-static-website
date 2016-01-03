@@ -23,7 +23,7 @@ var argv = yargs
 
 // Gulp
 
-gulp.task('delete', function(next) {
+gulp.task('clean', function(next) {
     del.sync([ 'dist' ]);
     next();
 });
@@ -38,9 +38,18 @@ gulp.task('assets', function() {
         .pipe(gulp.dest('dist/'));
 });
 
-gulp.task('img', function() {
+gulp.task('img', [ 'optimize' ], function() {
     return gulp.src([ 'src/img/**/*.*' ])
         .pipe(gulp.dest('dist/img/'));
+});
+
+gulp.task('optimize', function() {
+    return gulp.src([ 'src/img/**/*.*' ])
+        .pipe(plugins.imagemin({
+            progressive: true,
+            optimizationLevel: 7,
+        }))
+        .pipe(gulp.dest('src/img/'));
 });
 
 gulp.task('sass', function() {
@@ -142,7 +151,7 @@ gulp.task('bump', function () {
         .pipe(gulp.dest('./'));
 });
 
-gulp.task('build', [ 'delete', 'bower', 'js', 'coffee', 'sass', 'jade', 'img', 'assets' ]);
+gulp.task('build', [ 'clean', 'bower', 'js', 'coffee', 'sass', 'jade', 'img', 'assets' ]);
 
 gulp.task('watch', [ 'serve' ], function() {
     gulp.watch('bower_components/**/*',  [ 'bower',  ]);
