@@ -67,34 +67,34 @@ gulp.task('sass', function() {
         .pipe(browserSync.stream());
 });
 
+// gulp.task('js', function() {
+//     gulp.src([ 'src/js/**' ] )
+//         .pipe(gulp.dest('dist/js'));
+//
+//     return gulp.src([ 'src/js/app.js' ])
+//         .pipe(plugins.plumber())
+//         .pipe(plugins.sourcemaps.init())
+//         .pipe(plugins.uglify())
+//         .pipe(plugins.sourcemaps.write('.'))
+//         .pipe(plugins.rename({
+//             suffix: '.min'
+//         }))
+//         .pipe(gulp.dest('dist/js'))
+//         .pipe(browserSync.stream());
+// });
+
 gulp.task('js', function() {
-    gulp.src([ 'src/js/**' ] )
-        .pipe(gulp.dest('dist/js'));
-
-    return gulp.src([ 'src/js/app.js' ] )
+    return gulp.src([ 'src/js/**/*.{js,coffee}' ])
         .pipe(plugins.plumber())
         .pipe(plugins.sourcemaps.init())
-        .pipe(plugins.uglify())
-        .pipe(plugins.sourcemaps.write('.'))
-        .pipe(plugins.rename({
-            suffix: '.min'
-        }))
-        .pipe(gulp.dest('dist/js'))
-        .pipe(browserSync.stream());
-});
-
-gulp.task('coffee', function() {
-    return gulp.src([ 'src/coffee/**/*.coffee' ] )
-        .pipe(plugins.plumber())
-        .pipe(plugins.sourcemaps.init())
-        .pipe(plugins.coffee({
+        .pipe(plugins.if(/\.coffee$/, plugins.coffee({
             sourceMap: true
-        }))
+        })))
         .pipe(plugins.uglify())
-        .pipe(plugins.sourcemaps.write('.'))
         .pipe(plugins.rename({
             suffix: '.min'
         }))
+        .pipe(plugins.sourcemaps.write('.'))
         .pipe(gulp.dest('dist/js'))
         .pipe(browserSync.stream());
 });
