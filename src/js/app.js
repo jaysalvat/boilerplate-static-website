@@ -1,1 +1,1 @@
-alert('Minified JS ok');
+console.log('Minified JS ok');
