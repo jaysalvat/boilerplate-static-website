@@ -1,30 +1,26 @@
 {
-    "title": "xxxx",
-    "description": "xxxx",
-    "url": "http://xxxx.jaysalvat.com",
-    "analytics": "UA-111088-xx",
-    "navigation": {
-        "home": {
-            "title": "Home",
-            "url": "/"
+	"title": "xxxx",
+	"description": "xxxx",
+	"url": "http://xxxx.jaysalvat.com",
+	"analytics": "UA-111088-xx",
+	"navigation": {
+		"home": {
+			"title": "Home",
+			"url": "/"
+		},
+		"about": {
+			"title": "About",
+			"url": "/about",
+      "navigation": {
+        "about-subpage-1": {
+          "title": "About sub-page 1",
+          "url": "/about/subpage-1"
         },
-        "about": {
-            "title": "About",
-            "url": "/about"
-        },
-        "Documentation": {
-            "title": "Documentation",
-            "url": "/documentation",
-            "navigation": {
-                "gettingstarted": {
-                    "title": "Getting started",
-                    "url": "/documention/getting-started"
-                },
-                "settings": {
-                    "title": "Settings",
-                    "url": "/documention/settings"
-                }
-            }
+        "about-subpage-2": {
+          "title": "About sub-page2",
+          "url": "/about/subpage-2"
         }
-    }
+      }
+		}
+	}
 }

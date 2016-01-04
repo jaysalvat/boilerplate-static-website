@@ -1,1 +1,1 @@
-console.log('Minified JS ok');
+console.log('Bundle with vanillia JS ok');

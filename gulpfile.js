@@ -67,29 +67,17 @@ gulp.task('sass', function() {
         .pipe(browserSync.stream());
 });
 
-// gulp.task('js', function() {
-//     gulp.src([ 'src/js/**' ] )
-//         .pipe(gulp.dest('dist/js'));
-//
-//     return gulp.src([ 'src/js/app.js' ])
-//         .pipe(plugins.plumber())
-//         .pipe(plugins.sourcemaps.init())
-//         .pipe(plugins.uglify())
-//         .pipe(plugins.sourcemaps.write('.'))
-//         .pipe(plugins.rename({
-//             suffix: '.min'
-//         }))
-//         .pipe(gulp.dest('dist/js'))
-//         .pipe(browserSync.stream());
-// });
-
 gulp.task('js', function() {
-    return gulp.src([ 'src/js/**/*.{js,coffee}' ])
+    gulp.src([ 'src/js/vendors/*' ])
+        .pipe(gulp.dest('dist/js/vendors/'));
+
+    return gulp.src([ 'src/js/**/*.{js,coffee}', '!src/js/vendors/*' ])
         .pipe(plugins.plumber())
         .pipe(plugins.sourcemaps.init())
         .pipe(plugins.if(/\.coffee$/, plugins.coffee({
             sourceMap: true
         })))
+        .pipe(plugins.concat('bundle.js'))
         .pipe(plugins.uglify())
         .pipe(plugins.rename({
             suffix: '.min'
