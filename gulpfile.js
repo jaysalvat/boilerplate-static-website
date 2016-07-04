@@ -1,7 +1,7 @@
 /* jshint strict: false */
 
 var del         = require('del'),
-    jade        = require('jade'),
+    pug         = require('pug'),
     gulp        = require('gulp'),
     yargs       = require('yargs'),
     browserSync = require('browser-sync'),
@@ -64,7 +64,7 @@ gulp.task('sass', function() {
         }))
         .pipe(plugins.sourcemaps.write('.'))
         .pipe(gulp.dest('dist/css'))
-        .pipe(browserSync.stream());
+        .pipe(browserSync.stream({ match: '**/*.css'}));
 });
 
 gulp.task('js', function() {
@@ -84,14 +84,14 @@ gulp.task('js', function() {
         }))
         .pipe(plugins.sourcemaps.write('.'))
         .pipe(gulp.dest('dist/js'))
-        .pipe(browserSync.stream());
+        .pipe(browserSync.stream({ match: '**/*.js'}));
 });
 
-gulp.task('jade', function () {
-    return gulp.src([ 'src/jade/**/*.jade', '!src/jade/**/_*.jade' ])
+gulp.task('pug', function () {
+    return gulp.src([ 'src/pug/**/*.pug', '!src/pug/**/_*.pug' ])
         .pipe(plugins.plumber())
-        .pipe(plugins.jade({
-            jade:   jade,
+        .pipe(plugins.pug({
+            pug:   pug,
             locals: require('./config.json'),
             pretty:  argv.dev
         }))
@@ -138,22 +138,22 @@ gulp.task('bump', function () {
         .pipe(gulp.dest('./'));
 });
 
-gulp.task('build', [ 'clean', 'bower', 'js', 'sass', 'jade', 'img', 'assets' ]);
+gulp.task('build', [ 'clean', 'bower', 'js', 'sass', 'pug', 'img', 'assets' ]);
 
 gulp.task('watch', [ 'serve' ], function() {
     gulp.watch('bower_components/**/*',         [ 'bower',  ]);
     gulp.watch('src/img/**/*',                  [ 'img',    ]);
     gulp.watch('src/js/**/*.{js,coffee}',       [ 'js',     ]);
     gulp.watch('src/sass/**/*.{css,scss,sass}', [ 'sass',   ]);
-    gulp.watch('src/jade/**/*.jade',            [ 'jade',   ]);
+    gulp.watch('src/pug/**/*.pug',              [ 'pug',    ]);
     gulp.watch('src/assets/**/*',               [ 'assets', ]);
 });
 
 gulp.task('default', [ 'build', 'watch' ]);
 
-// Jade Mixins
+// pug Mixins
 
-jade.filters.syntax = function (string) {
+pug.filters.syntax = function (string) {
     return '<pre class="syntax-block">' + syntax(string) + '</pre>';
 };
 
@@ -190,10 +190,10 @@ function syntax (string) {
 }
 
 // npm i -D browser-sync
-// npm i -D jade
+// npm i -D pug
 // npm i -D gulp
 // npm i -D gulp-autoprefixer
-// npm i -D gulp-jade
+// npm i -D gulp-pug
 // npm i -D gulp-load-plugins
 // npm i -D gulp-plumber
 // npm i -D gulp-rename
