@@ -1,0 +1,25 @@
+{% block layoutVars %}{% endblock %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="description" content="{{ description }}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body id="{{ id }}">
+    {% include '/_partials/_header.html' %}
+
+    {% include '/_partials/_navigation.html' %}
+
+    {% block main %}{% endblock %}
+
+    {% include '/_partials/_footer.html' %}
+
+    <script src="/js/commons.chunk.bundle.js"></script>
+    <script src="/js/main.bundle.js"></script>
+</body>
+</html>

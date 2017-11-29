@@ -1,31 +1,49 @@
 {
   "name": "xxxx",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "xxxx",
-  "main": "dist/index.html",
+  "main": "./dist/index.js",
+  "scripts": {
+    "start": "gulp --nosync",
+    "init": "./init",
+    "build": "gulp build --producion",
+    "deploy": "gulp build --production && ./deploy"
+  },
   "author": "Jay Salvat",
   "private": true,
-  "devDependencies": {
-    "browser-sync": "^2.8.2",
-    "del": "^2.2.0",
-    "gulp": "^3.9.0",
-    "gulp-autoprefixer": "^3.1.0",
-    "gulp-bump": "^2.2.0",
-    "gulp-coffee": "^2.3.1",
-    "gulp-concat": "^2.6.0",
-    "gulp-if": "^2.0.0",
-    "gulp-imagemin": "^3.0.1",
-    "gulp-load-plugins": "^1.2.4",
-    "gulp-plumber": "^1.0.1",
-    "gulp-pug": "^3.0.3",
-    "gulp-rename": "^1.2.2",
-    "gulp-sass": "^2.1.1",
-    "gulp-sourcemaps": "^1.5.2",
-    "gulp-uglify": "^1.2.0",
-    "pug": "^2.0.0-beta3",
-    "yargs": "^4.7.1"
+  "dependencies": {
+    "lodash.debounce": "^4.0.8",
+    "lodash.throttle": "^4.1.1",
+    "particles.js": "^2.0.0"
   },
-  "scripts": {
-    "init": "./init"
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-latest": "^6.24.1",
+    "browser-sync": "^2.18.13",
+    "del": "^3.0.0",
+    "exports-loader": "^0.6.4",
+    "gifsicle": "^3.0.4",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-htmlmin": "^3.0.0",
+    "gulp-if": "^2.0.2",
+    "gulp-imagemin": "^3.4.0",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.6.1",
+    "gulp-twig": "^1.1.1",
+    "gulp-uglify": "^3.0.0",
+    "jpegtran": "^1.0.5",
+    "marked": "^0.3.6",
+    "optipng": "^1.1.0",
+    "svgo": "^0.7.2",
+    "svgo-sync": "^0.5.1",
+    "webpack": "^3.6.0",
+    "webpack-stream": "^4.0.0",
+    "yargs": "^9.0.1"
   }
 }

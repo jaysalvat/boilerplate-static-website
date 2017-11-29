@@ -1,0 +1,15 @@
+#!/bin/bash
+
+CONFIRM='prod'
+
+if [ "$1" = "-f" ] || [ -z "$CONFIRM" ]; then
+    input=$CONFIRM
+else
+    read -p "Type \"$CONFIRM\" to confirm? " input
+fi
+
+if [ "$CONFIRM" != "$input" ]; then
+   echo "ABORTED.";
+else
+   rsync -rvuz --delete -e "ssh -p xxxx" ./dist xxx@xxxxxx.net:/var/www/xxxxxx/html --exclude-from=.deployignore
+fi

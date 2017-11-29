@@ -1,9 +1,0 @@
-ovh:
-    host: ftp.xxxx.com
-    user: xxxx
-    pass: xxxx
-    path:
-        local: dist/
-        remote: xxxx/
-    branch: master
-    exclude: [ 'dploy.yaml' ]

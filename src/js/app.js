@@ -1,1 +1,3 @@
-console.log('Bundle with vanillia JS ok');
+console.log(
+  (() => 'ES6 Bundle ok')()
+);
