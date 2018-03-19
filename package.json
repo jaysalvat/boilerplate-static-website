@@ -17,6 +17,7 @@
     "babel-preset-latest": "^6.24.1",
     "browser-sync": "^2.23.6",
     "del": "^3.0.0",
+    "event-stream": "^3.3.4",
     "exports-loader": "^0.7.0",
     "gifsicle": "^3.0.4",
     "gulp": "^3.9.1",
@@ -28,17 +29,20 @@
     "gulp-load-plugins": "^1.5.0",
     "gulp-plumber": "^1.2.0",
     "gulp-rename": "^1.2.2",
-    "gulp-sass": "^3.1.0",
+    "gulp-sass": "^3.2.0",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-twig": "^1.2.0",
     "gulp-uglify": "^3.0.0",
     "jpegtran": "^1.0.5",
+    "lodash.merge": "^4.6.1",
     "marked": "^0.3.17",
+    "merge-stream": "^1.0.1",
     "optipng": "^1.1.0",
+    "require-reload": "^0.2.2",
     "svgo": "^1.0.5",
     "svgo-sync": "^0.5.1",
-    "webpack": "^4.1.1",
+    "webpack": "^3.11.0",
     "webpack-stream": "^4.0.2",
-    "yargs": "^11.0.0"
+    "yargs": "^11.1.0"
   }
 }

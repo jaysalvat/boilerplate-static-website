@@ -1,0 +1,13 @@
+<ul>
+    <li class="{{ 'home' in currentPage ? 'active' : '' }}">
+        <a href="{{ languages[currentLang].dir }}">homepage</a>
+    </li>
+    <li class="{{ 'about' in currentPage ? 'active' : '' }}">
+        <a href="{{ languages[currentLang].dir }}about">about</a>
+        <ul>
+            <li class="{{ 'about-subpage' in currentPage ? 'active' : '' }}">
+                <a href="{{ languages[currentLang].dir }}about/subpage">about subpage</a>
+            </li>
+        </ul>
+    </li>
+</ul>

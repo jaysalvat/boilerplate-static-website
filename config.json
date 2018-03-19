@@ -2,25 +2,15 @@
 	"title": "xxxx",
 	"description": "xxxx",
 	"url": "http://xxxx.jaysalvat.com",
-	"analytics": "UA-111088-xx",
-	"navigation": {
-		"home": {
-			"title": "Home",
-			"url": "/"
-		},
-		"about": {
-			"title": "About",
-			"url": "/about",
-      "navigation": {
-        "about-subpage-1": {
-          "title": "About sub-page 1",
-          "url": "/about/subpage-1"
-        },
-        "about-subpage-2": {
-          "title": "About sub-page2",
-          "url": "/about/subpage-2"
-        }
-      }
-		}
-	}
+  "analytics": "UA-111088-xx",
+  "languages": {
+    "en": {
+      "dir": "/",
+      "name": "English"
+    },
+    "fr": {
+      "dir": "/fr/",
+      "name": "Français"
+    }
+  }
 }

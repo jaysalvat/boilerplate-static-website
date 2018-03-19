@@ -1,15 +1,17 @@
 {% extends "./_layouts/_default.html" %}
 
-{% block layoutVars %}
+{% block globalVars %}
     {% set id = 'home-page' %}
     {% set title = 'Homepage' %}
-    {% set activePage = 'home' %}
+    {% set currentPage = 'home' %}
 {% endblock %}
 
 {% block main %}
 <div class="container">
     <h1>Home page</h1>
     <p>This is the Home page</p>
+    <p>Template {{ template }} [{{ currentLang }}]</p>
+    <p>{{ i18n.helloword }}</p>
 </div>
 {% endblock %}
 

@@ -1,17 +1,21 @@
 /* jshint strict: false */
 
 const
+  load          = require('require-reload')(require),
+  extend        = require('lodash.merge'),
   del           = require('del'),
   gulp          = require('gulp'),
   yargs         = require('yargs'),
   browserSync   = require('browser-sync'),
-  webpackStream = require('webpack-stream'),
   plugins       = require('gulp-load-plugins')(),
-  config        = require('./gulpfile.config');
+  config        = require('./gulpfile.config'),
+  webpackStream = require('webpack-stream'),
+  eventStream   = require('event-stream'),
+  mergeStream   = require('merge-stream');
 
 // Args
 
-var argv = yargs
+const argv = yargs
   .default('port',       3000)
   .default('production', false)
   .default('nosync',     false)
@@ -75,34 +79,61 @@ gulp.task('webpack', function() {
 });
 
 gulp.task('twig', function () {
-  let data = require('./config.json');
-  let mixins = require('./src/views/_mixins');
+  const streams = [];
+  const config = require('./config.json');
+  const mixins = require('./src/views/_mixins');
+  const languages = Object.keys(config.languages || {});
 
-  return gulp.src([ './src/views/**/*.html', '!src/views/**/_*.html' ])
-    .pipe(plugins.plumber())
-    .pipe(plugins.twig({
-      base: './src/views',
-      data: data,
-      errorLogToConsole: true,
-      functions: [
-        {
-          name: 'svg',
-          func: mixins.svg
-        },
-        {
-          name: 'markdown',
-          func: mixins.markdown
-        }
-      ]
-    }))
-    .pipe(plugins.rename(function (path) {
-      if (path.basename !== 'index') {
-        path.dirname  = path.dirname + '/' + path.basename;
-        path.basename = 'index';
+  languages.forEach((lang, i) => {
+    let i18n, defaultI18n = {}, viewData;
+
+    if (lang) {
+      if (i === 0) {
+        defaultI18n = load('./src/i18n/' + lang + '.js');
       }
-    }))
-    .pipe(plugins.if(argv.production, plugins.htmlmin(config.htmlmin)))
-    .pipe(gulp.dest('./dist'))
+      i18n = load('./src/i18n/' + lang + '.js');
+      i18n = extend({}, defaultI18n, i18n);
+    }
+
+    viewData = Object.assign({}, config, { i18n, currentLang: lang });
+
+    const stream = gulp.src([ './src/views/**/*.html', '!src/views/**/_*.html' ])
+      .pipe(plugins.plumber())
+      .pipe(function(es) {
+        return es.map(function(file, cb) {
+          let template;
+          template = file.path;
+          template = template.replace(file.base, '');
+          template = template.replace('.html', '');
+          viewData.template = template;
+          return cb(null, file);
+        });
+      }(eventStream))
+      .pipe(plugins.twig({
+        base: './src/views',
+        data: viewData,
+        errorLogToConsole: true,
+        functions: [
+          { name: 'svg',
+            func: mixins.svg
+          },
+          { name: 'markdown',
+            func: mixins.markdown
+          }
+        ]
+      }))
+      .pipe(plugins.rename(function (path) {
+        if (path.basename !== 'index') {
+          path.dirname  = path.dirname + '/' + path.basename;
+          path.basename = 'index';
+        }
+      }))
+      .pipe(gulp.dest('./dist/' + config.languages[lang].dir));
+
+    streams.push(stream);
+  });
+
+  return mergeStream.apply(this, streams)
     .pipe(browserSync.stream({
       match: '**/*.html'
     }));

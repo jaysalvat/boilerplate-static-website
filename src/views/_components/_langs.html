@@ -1,0 +1,7 @@
+<ul>
+    {% for code, entry in languages %}
+    <li class="{{ currentLang == code ? 'active' : '' }}">
+        <a href="{{ entry.dir }}">{{ entry.name }}</a>
+    </li>
+    {% endfor %}
+</ul>

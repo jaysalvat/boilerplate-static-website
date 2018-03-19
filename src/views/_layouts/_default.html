@@ -1,4 +1,4 @@
-{% block layoutVars %}{% endblock %}
+{% block globalVars %}{% endblock %}
 
 <!DOCTYPE html>
 <html>
@@ -12,8 +12,6 @@
 </head>
 <body id="{{ id }}">
     {% include '/_partials/_header.html' %}
-
-    {% include '/_partials/_navigation.html' %}
 
     {% block main %}{% endblock %}
 
