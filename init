@@ -6,9 +6,6 @@ read name
 echo "Description of the project: "
 read description
 
-sed -i "" -e 's/"name": "xxxx"/"name": "'"$name"'"/' bower.json
-sed -i "" -e 's/"description": "xxxx"/"description": "'"$description"'"/' bower.json
-
 sed -i "" -e 's/"name": "xxxx"/"name": "'"$name"'"/' package.json
 sed -i "" -e 's/"description": "xxxx"/"description": "'"$description"'"/' package.json
 
