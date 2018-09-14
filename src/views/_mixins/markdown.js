@@ -1,9 +1,20 @@
 const fs   = require('fs');
 const marked = require('marked');
 
-const markdown = function (value) {
+marked.setOptions({
+  pedantic: false,
+  gfm: true,
+  tables: true,
+  breaks: true,
+  sanitize: false,
+  smartLists: true,
+  smartypants: false,
+  xhtml: false
+});
+
+const markdown = function (value, lang = '') {
   let markdown;
-  const pathfile = './src/markdown/' + value;
+  const pathfile = './src/markdown/' + lang + '/' + value;
 
   if (fs.existsSync(pathfile)) {
     markdown = fs.readFileSync(pathfile, 'utf-8');
