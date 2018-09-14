@@ -76,7 +76,7 @@ module.exports = function (plop) {
     let relativePath = '';
     const parts = path.split(/\//g);
 
-    if (parts.length <= 1) {
+    if (path === '.' || !parts.length) {
       return './';
     }
 
