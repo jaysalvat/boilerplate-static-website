@@ -1,0 +1,17 @@
+{% extends "{{ relativePath path }}_layouts/_default.html" %}
+
+{% block globalVars %}
+    {% set id = '{{ dashCase title }}-page' %}
+    {% set title = '{{ titleCase title }} page' %}
+    {% set currentPage = '{{ dashCase title }}' %}
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <h1>{{ titleCase title }}</h1>
+    <p>This is the {{ titleCase title }} page</p>
+    <p>Template \{{ template }} [\{{ currentLang }}]</p>
+    <p>\{{ i18n.helloword }}</p>
+</div>
+{% endblock %}
+

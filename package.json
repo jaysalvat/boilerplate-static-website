@@ -38,6 +38,7 @@
     "marked": "^0.3.17",
     "merge-stream": "^1.0.1",
     "optipng": "^1.1.0",
+    "plop": "^2.1.0",
     "require-reload": "^0.2.2",
     "svgo": "^1.0.5",
     "svgo-sync": "^0.5.1",
