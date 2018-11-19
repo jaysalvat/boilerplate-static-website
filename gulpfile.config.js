@@ -1,4 +1,21 @@
 module.exports = {
+
+  // https://tinypng.com/
+
+  tinypng: {
+    key: ''
+  },
+
+  // https://www.npmjs.com/package/gulp-cachebust
+
+  cachebuster: {
+    checksumLength: 16,
+    random: false,
+    pathFormatter: function(dirname, basename, extname, checksum) {
+      return require('path').join(dirname, checksum + extname);
+    }
+  },
+
   // https://github.com/kangax/html-minifier
 
   htmlmin: {

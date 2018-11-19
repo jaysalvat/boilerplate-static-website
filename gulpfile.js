@@ -8,10 +8,13 @@ const
   yargs         = require('yargs'),
   browserSync   = require('browser-sync'),
   plugins       = require('gulp-load-plugins')(),
-  config        = require('./gulpfile.config'),
   webpackStream = require('webpack-stream'),
   eventStream   = require('event-stream'),
-  mergeStream   = require('merge-stream');
+  mergeStream   = require('merge-stream'),
+  CacheBuster   = require('gulp-cachebust'),
+  config        = require('./gulpfile.config');
+
+const cachebuster = new CacheBuster(config.cachebuster);
 
 // Args
 
@@ -35,8 +38,24 @@ gulp.task('assets', function() {
 
 gulp.task('img', function() {
   return gulp.src([ './src/img/**/*.*' ])
-    .pipe(plugins.if(argv.production, plugins.imagemin(config.imagemin(plugins.imagemin))))
+    .pipe(plugins.if(argv.production, cachebuster.resources()))
     .pipe(gulp.dest('./dist/img/'));
+});
+
+gulp.task('img:optim', function () {
+  gulp.src('./src/img/**/*')
+    .pipe(plugins.imagemin(config.imagemin(plugins.imagemin)))
+    .pipe(gulp.dest('./src/img/'));
+});
+
+gulp.task('img:optim:tinypng', function (next) {
+  if (!config.tinypng.key) {
+    return next();
+  }
+
+  gulp.src('./src/img/**/*.png')
+    .pipe(plugins.tinypng(config.tinypng.key))
+    .pipe(gulp.dest('./src/img/'));
 });
 
 gulp.task('sass', function() {
@@ -154,14 +173,25 @@ gulp.task('reload', function () {
   return browserSync.reload();
 });
 
-gulp.task('build', [ 'clean', 'img', 'assets', 'twig', 'sass', 'webpack' ]);
+gulp.task('build', [ 'bundle' ], function (next) {
+  if (argv.production) {
+    return gulp.src([ './dist/**/*.{html,css}' ])
+      .pipe(cachebuster.references())
+      .pipe(plugins.htmlmin(config.htmlmin))
+      .pipe(gulp.dest('./dist'));
+  }
+  return next();
+});
+
+gulp.task('bundle', [ 'clean', 'assets', 'img', 'sass', 'webpack', 'twig' ]);
 
 gulp.task('watch', [ 'serve' ], function() {
-  gulp.watch('./src/img/**/*',                  [ 'img',   ]);
+  gulp.watch('./src/img/**/*',                  [ 'img',     ]);
   gulp.watch('./src/js/**/*.js',                [ 'webpack', ]);
-  gulp.watch('./src/sass/**/*.{css,scss,sass}', [ 'sass',  ]);
-  gulp.watch('./src/views/**/*.html',           [ 'twig',  ]);
-  gulp.watch('./src/markdown/**/*.md',          [ 'twig',  ]);
+  gulp.watch('./src/sass/**/*.{css,scss,sass}', [ 'sass',    ]);
+  gulp.watch('./src/views/**/*.html',           [ 'twig',    ]);
+  gulp.watch('./src/markdown/**/*.md',          [ 'twig',    ]);
+  gulp.watch('./src/i18n/**/*.js',              [ 'twig',    ]);
   gulp.watch('./src/assets/**/*',               [ 'assets',  ]);
 });
 

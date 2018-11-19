@@ -14,12 +14,12 @@ module.exports = function (plop) {
     ],
     actions: [{
       type: 'add',
-      path: './src/views/_partials/_{{ dashCase name }}.html',
+      path: './src/views/_partials/_{{ dashCase filename }}.html',
       templateFile: './templates/partial/html.hbs'
     },
     {
       type: 'add',
-      path: './src/sass/partials/{{ dashCase name }}.sass',
+      path: './src/sass/partials/{{ dashCase filename }}.sass',
       templateFile: './templates/partial/sass.hbs'
     },
     {
@@ -40,12 +40,12 @@ module.exports = function (plop) {
         message: 'Page path',
         default: '.'
       },
-      {
-        type: 'input',
-        name: 'filename',
-        message: 'Page file name',
-        default: 'index'
-      },
+      // {
+      //   type: 'input',
+      //   name: 'filename',
+      //   message: 'Page file name',
+      //   default: 'index'
+      // },
       {
         type: 'input',
         name: 'title',
@@ -55,12 +55,12 @@ module.exports = function (plop) {
     ],
     actions: [{
       type: 'add',
-      path: './src/views/{{ path }}/{{ lowerCase filename }}.html',
+      path: './src/views/{{ pathCase path }}/index.html',
       templateFile: './templates/page/html.hbs'
     },
     {
       type: 'add',
-      path: './src/sass/pages/{{ dashCase title }}.sass',
+      path: './src/sass/pages/{{ dashCase path }}.sass',
       templateFile: './templates/page/sass.hbs',
     },
     {
