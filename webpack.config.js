@@ -1,20 +1,12 @@
-const webpack = require('webpack');
 const config  = require('./gulpfile.config');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = (argv) => {
-  let plugins = [
-  ];
-
-  if (argv.production) {
-    plugins.push(
-      new webpack.optimize.UglifyJsPlugin(config.uglify)
-    );
-  }
-
-  return {
+  const settings = {
     devtool: argv.production ? false : 'source-map',
     mode: argv.production ? 'production' : 'development',
     optimization: {
+      minimizer: [],
       splitChunks: {
         chunks: 'async',
         minSize: 30000,
@@ -50,7 +42,12 @@ module.exports = (argv) => {
           }
         }
       ]
-    },
-    plugins: plugins
+    }
   };
+
+  if (argv.production) {
+    settings.optimization.minimizer.push(new UglifyJsPlugin(config.uglify));
+  }
+
+  return settings;
 };

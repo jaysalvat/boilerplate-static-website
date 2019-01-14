@@ -30,8 +30,7 @@ module.exports = {
   // https://github.com/mishoo/UglifyJS2#minify-options
 
   uglify: {
-    sourceMap: true,
-    mangle: true,
+    sourceMap: true
   },
 
   // https://github.com/postcss/autoprefixer#options

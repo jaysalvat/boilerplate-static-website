@@ -26,39 +26,39 @@ const argv = yargs
 
 // Gulp
 
-gulp.task('clean', function(next) {
+function clean(next) {
   del.sync([ 'dist' ]);
   next();
-});
+}
 
-gulp.task('assets', function() {
+function assets() {
   return gulp.src([ './src/assets/**/*.*' ])
     .pipe(gulp.dest('./dist/'));
-});
+}
 
-gulp.task('img', function() {
+function img() {
   return gulp.src([ './src/img/**/*.*' ])
     .pipe(plugins.if(argv.production, cachebuster.resources()))
     .pipe(gulp.dest('./dist/img/'));
-});
+}
 
-gulp.task('img:optim', function () {
-  gulp.src('./src/img/**/*')
+function imgOptim() {
+  return gulp.src('./src/img/**/*')
     .pipe(plugins.imagemin(config.imagemin(plugins.imagemin)))
     .pipe(gulp.dest('./src/img/'));
-});
+}
 
-gulp.task('img:optim:tinypng', function (next) {
+function imgOptimTinyPNG() {
   if (!config.tinypng.key) {
-    return next();
+    throw 'TinyPNG API Key missing';
   }
 
-  gulp.src('./src/img/**/*.png')
+  return gulp.src('./src/img/**/*.png')
     .pipe(plugins.tinypng(config.tinypng.key))
     .pipe(gulp.dest('./src/img/'));
-});
+}
 
-gulp.task('sass', function() {
+function sass() {
   return gulp.src([ './src/sass/styles.{css,scss,sass}' ])
     .pipe(plugins.sourcemaps.init())
     .pipe(plugins.sass({
@@ -70,9 +70,9 @@ gulp.task('sass', function() {
     .pipe(browserSync.stream({
       match: '**/*.css'
     }));
-});
+}
 
-gulp.task('js', function() {
+function js() {
   gulp.src([ './src/js/vendors/*' ])
     .pipe(gulp.dest('./dist/js/vendors/'));
 
@@ -86,18 +86,18 @@ gulp.task('js', function() {
     .pipe(browserSync.stream({
       match: '**/*.js'
     }));
-});
+}
 
-gulp.task('webpack', function() {
+function webpack() {
   return gulp.src('src/js/app.js')
     .pipe(webpackStream(require('./webpack.config.js')(argv)))
     .pipe(gulp.dest('dist/js'))
     .pipe(browserSync.stream({
       match: '**/*.js'
     }));
-});
+}
 
-gulp.task('twig', function () {
+function twig() {
   const streams = [];
   const config = require('./config.json');
   const mixins = require('./src/views/_mixins');
@@ -156,9 +156,9 @@ gulp.task('twig', function () {
     .pipe(browserSync.stream({
       match: '**/*.html'
     }));
-});
+}
 
-gulp.task('serve', function () {
+function serve() {
   browserSync({
     notify:  false,
     ghostMode: !argv.nosync,
@@ -167,15 +167,9 @@ gulp.task('serve', function () {
       baseDir: './dist'
     }
   });
-});
+}
 
-gulp.task('reload', function () {
-  return browserSync.reload();
-});
-
-gulp.task('bundle', gulp.series( 'clean', 'assets', 'img', 'sass', 'webpack', 'twig'));
-
-gulp.task('build', gulp.series('bundle', function (next) {
+function build(next) {
   if (argv.production) {
     return gulp.src([ './dist/**/*.{html,css}' ])
       .pipe(cachebuster.references())
@@ -183,16 +177,34 @@ gulp.task('build', gulp.series('bundle', function (next) {
       .pipe(gulp.dest('./dist'));
   }
   return next();
-}));
+}
 
-gulp.task('watch', gulp.series('serve', function() {
-  gulp.watch('./src/img/**/*',                  [ 'img',     ]);
-  gulp.watch('./src/js/**/*.js',                [ 'webpack', ]);
-  gulp.watch('./src/sass/**/*.{css,scss,sass}', [ 'sass',    ]);
-  gulp.watch('./src/views/**/*.html',           [ 'twig',    ]);
-  gulp.watch('./src/markdown/**/*.md',          [ 'twig',    ]);
-  gulp.watch('./src/i18n/**/*.js',              [ 'twig',    ]);
-  gulp.watch('./src/assets/**/*',               [ 'assets',  ]);
-}));
+function watch(next) {
+  browserSync({
+    notify:  false,
+    ghostMode: !argv.nosync,
+    port:    argv.port,
+    server: {
+      baseDir: './dist'
+    }
+  });
+  gulp.watch('./src/img/**/*',                   gulp.series(img     ));
+  gulp.watch('./src/js/**/*.js',                 gulp.series(webpack ));
+  gulp.watch('./src/sass/**/*.{css,scss,sass}',  gulp.series(sass    ));
+  gulp.watch('./src/views/**/*.html',            gulp.series(twig    ));
+  gulp.watch('./src/markdown/**/*.md',           gulp.series(twig    ));
+  gulp.watch('./src/i18n/**/*.js',               gulp.series(twig    ));
+  gulp.watch('./src/assets/**/*',                gulp.series(assets  ));
+  return next();
+}
 
-gulp.task('default', gulp.series('build', 'watch'));
+const bundle = gulp.series(clean, assets, img, sass, webpack, twig);
+
+exports.assets = assets;
+exports.js = js;
+exports.img = img;
+exports.img = imgOptim;
+exports.img = imgOptimTinyPNG;
+exports.default = gulp.series(bundle, build, watch);
+exports.build = gulp.series(bundle, build);
+exports.watch = gulp.series(serve, watch);
