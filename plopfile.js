@@ -60,7 +60,7 @@ module.exports = function (plop) {
     },
     {
       type: 'add',
-      path: './src/sass/pages/{{ dashCase path }}.sass',
+      path: './src/sass/pages/_{{ dashCase path }}.sass',
       templateFile: './templates/page/sass.hbs',
     },
     {
