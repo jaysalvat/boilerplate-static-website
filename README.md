@@ -28,6 +28,10 @@ Watch and open server with no sync between browers
 
     gulp watch --nosync
 
+Generate pages or partials from templates
+
+    plop
+
 ## Production
 
 Build the website with minified CSS / HTML and scripts to the /dist folder.
