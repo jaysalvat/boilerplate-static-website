@@ -8,6 +8,7 @@ const
   yargs         = require('yargs'),
   browserSync   = require('browser-sync'),
   plugins       = require('gulp-load-plugins')(),
+  vinylNamed    = require('vinyl-named'),
   webpackStream = require('webpack-stream'),
   eventStream   = require('event-stream'),
   mergeStream   = require('merge-stream'),
@@ -59,7 +60,7 @@ function imgOptimTinyPNG() {
 }
 
 function sass() {
-  return gulp.src([ './src/sass/styles.{css,scss,sass}' ])
+  return gulp.src([ './src/sass/styles*.{css,scss,sass}' ])
     .pipe(plugins.sourcemaps.init())
     .pipe(plugins.sass({
       outputStyle: argv.production ? 'compressed' : 'expanded'
@@ -89,7 +90,8 @@ function js() {
 }
 
 function webpack() {
-  return gulp.src('src/js/app.js')
+  return gulp.src('src/js/app*.js')
+    .pipe(vinylNamed())
     .pipe(webpackStream(require('./webpack.config.js')(argv)))
     .pipe(gulp.dest('dist/js'))
     .pipe(browserSync.stream({
