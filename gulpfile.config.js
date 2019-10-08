@@ -36,7 +36,6 @@ module.exports = {
   // https://github.com/postcss/autoprefixer#options
 
   autoprefixer: {
-    browsers: ['last 2 versions'],
     cascade: true
   },
 
