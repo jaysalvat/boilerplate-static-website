@@ -11,5 +11,5 @@ fi
 if [ "$CONFIRM" != "$input" ]; then
     echo "ABORTED.";
 else
-    rsync -rvuz --delete -e "ssh -p xxxx" ./dist xxx@xxxxxx.net:/var/www/xxxxxx/html --exclude-from=.deployignore
+    rsync -rzvc --delete -e "ssh -p xxxx" ./dist xxx@xxxxxx.net:/var/www/xxxxxx/html --exclude-from=.deployignore
 fi
