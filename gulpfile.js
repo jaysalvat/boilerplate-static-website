@@ -20,9 +20,15 @@ const cachebuster = new CacheBuster(config.cachebuster);
 // Args
 
 const argv = yargs
-  .default('port',       3000)
-  .default('production', false)
-  .default('nosync',     false)
+  .default('port', 3000)
+  .option('nosync', {
+    type: 'boolean',
+    default: false
+  })
+  .option('production', {
+    type: 'boolean',
+    default: false
+  })
   .argv;
 
 // Gulp
@@ -92,7 +98,12 @@ function js() {
 function webpack() {
   return gulp.src('src/js/app*.js')
     .pipe(vinylNamed())
-    .pipe(webpackStream(require('./webpack.config.js')(argv)))
+    .pipe(
+      webpackStream(require('./webpack.config.js')(argv))
+      .on('error', function handleError() {
+        this.emit('end'); // Recover from errors
+      })
+    )
     .pipe(gulp.dest('dist/js'))
     .pipe(browserSync.stream({
       match: '**/*.js'

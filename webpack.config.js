@@ -1,5 +1,5 @@
 const config  = require('./gulpfile.config');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = (argv) => {
   const settings = {
@@ -37,16 +37,14 @@ module.exports = (argv) => {
         {
           test: /\.js$/,
           loader: 'babel-loader?harmony',
-          options: {
-            presets: [ 'latest' ]
-          }
+          options: {}
         }
       ]
     }
   };
 
   if (argv.production) {
-    settings.optimization.minimizer.push(new UglifyJsPlugin(config.uglify));
+    settings.optimization.minimizer.push(new TerserPlugin());
   }
 
   return settings;
