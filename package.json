@@ -4,10 +4,10 @@
   "description": "xxxx",
   "main": "./dist/index.js",
   "scripts": {
-    "start": "gulp --nosync",
     "init": "./init",
-    "build": "gulp build --producion",
-    "deploy": "gulp build --production && ./deploy"
+    "start": "./node_modules/.bin/gulp --nosync",
+    "build": "./node_modules/.bin/gulp build --producion",
+    "deploy": "./node_modules/.bin/gulp build --production && ./deploy"
   },
   "author": "Jay Salvat",
   "private": true,

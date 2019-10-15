@@ -1,12 +1,12 @@
 <ul>
-    <li class="{{ 'home' in currentPage ? 'active' : '' }}">
-        <a href="{{ languages[currentLang].dir }}">homepage</a>
+    <li class="{{ routeActive('/index', true) }}">
+        <a href="{{ route('/') }}">homepage</a>
     </li>
-    <li class="{{ 'about' in currentPage ? 'active' : '' }}">
-        <a href="{{ languages[currentLang].dir }}about">about</a>
+    <li class="{{ routeActive('/about') }}">
+        <a href="{{ route('/about') }}">about</a>
         <ul>
-            <li class="{{ 'about-subpage' in currentPage ? 'active' : '' }}">
-                <a href="{{ languages[currentLang].dir }}about/subpage">about subpage</a>
+            <li class="{{ routeActive('about/subpage') }}">
+                <a href="{{ route('/about/subpage') }}">about subpage</a>
             </li>
         </ul>
     </li>

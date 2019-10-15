@@ -115,14 +115,12 @@ function twig() {
   const config = require('./config.json');
   const mixins = require('./src/views/_mixins');
   const languages = Object.keys(config.languages || {});
+  const defaultI18n = load('./src/i18n/' + languages[0] + '.js');
 
   languages.forEach((lang, i) => {
-    let i18n, defaultI18n = {}, viewData;
+    let i18n, viewData;
 
     if (lang) {
-      if (i === 0) {
-        defaultI18n = load('./src/i18n/' + lang + '.js');
-      }
       i18n = load('./src/i18n/' + lang + '.js');
       i18n = extend({}, defaultI18n, i18n);
     }
@@ -151,6 +149,12 @@ function twig() {
           },
           { name: 'markdown',
             func: mixins.markdown
+          },
+          { name: 'route',
+            func: mixins.route
+          },
+          { name: 'routeActive',
+            func: mixins.routeActive
           }
         ]
       }))
@@ -185,7 +189,7 @@ function serve() {
 function build(next) {
   if (argv.production) {
     return gulp.src([ './dist/**/*.{html,css}' ])
-      .pipe(cachebuster.references())
+      .pipe(plugins.if(argv.production, cachebuster.references()))
       .pipe(plugins.htmlmin(config.htmlmin))
       .pipe(gulp.dest('./dist'));
   }
