@@ -13,6 +13,7 @@ const
   eventStream   = require('event-stream'),
   mergeStream   = require('merge-stream'),
   CacheBuster   = require('gulp-cachebust'),
+  php    = require('gulp-connect-php'),
   config        = require('./gulpfile.config');
 
 const cachebuster = new CacheBuster(config.cachebuster);
@@ -21,6 +22,11 @@ const cachebuster = new CacheBuster(config.cachebuster);
 
 const argv = yargs
   .default('port', 3000)
+  .default('port-php', 8000)
+  .option('php', {
+    type: 'boolean',
+    default: false
+  })
   .option('nosync', {
     type: 'boolean',
     default: false
@@ -100,9 +106,9 @@ function webpack() {
     .pipe(vinylNamed())
     .pipe(
       webpackStream(require('./webpack.config.js')(argv))
-      .on('error', function handleError() {
-        this.emit('end'); // Recover from errors
-      })
+        .on('error', function handleError() {
+          this.emit('end');
+        })
     )
     .pipe(gulp.dest('dist/js'))
     .pipe(browserSync.stream({
@@ -117,7 +123,7 @@ function twig() {
   const languages = Object.keys(config.languages || {});
   const defaultI18n = load('./src/i18n/' + languages[0] + '.js');
 
-  languages.forEach((lang, i) => {
+  languages.forEach((lang) => {
     let i18n, viewData;
 
     if (lang) {
@@ -127,7 +133,7 @@ function twig() {
 
     viewData = Object.assign({}, config, { i18n, currentLang: lang });
 
-    const stream = gulp.src([ './src/views/**/*.html', '!src/views/**/_*.html' ])
+    const stream = gulp.src([ './src/views/**/*.{html,php}', '!src/views/**/_*.{html,php}' ])
       .pipe(plugins.plumber())
       .pipe(function(es) {
         return es.map(function(file, cb) {
@@ -143,6 +149,7 @@ function twig() {
         base: './src/views',
         data: viewData,
         errorLogToConsole: true,
+        extname: true,
         functions: [
           { name: 'svg',
             func: mixins.svg
@@ -197,18 +204,36 @@ function build(next) {
 }
 
 function watch(next) {
-  browserSync({
-    notify:  false,
-    ghostMode: !argv.nosync,
-    port:    argv.port,
-    server: {
-      baseDir: './dist'
-    }
-  });
+  if (argv.php) {
+    php.server({
+      base:'./dist',
+      port: argv['port-php'],
+      keepalive: true,
+      stdio: 'ignore',
+    }, function (){
+      browserSync({
+        proxy: 'http://localhost:' + argv['port-php'],
+        notify: false,
+        ghostMode: !argv.nosync,
+        port: argv.port,
+        open: true,
+      });
+    });
+  } else {
+    browserSync({
+      notify: false,
+      ghostMode: !argv.nosync,
+      port: argv.port,
+      server: {
+        baseDir: './dist'
+      }
+    });
+  }
+
   gulp.watch('./src/img/**/*',                   gulp.series(img     ));
   gulp.watch('./src/js/**/*.js',                 gulp.series(webpack ));
   gulp.watch('./src/sass/**/*.{css,scss,sass}',  gulp.series(sass    ));
-  gulp.watch('./src/views/**/*.html',            gulp.series(twig    ));
+  gulp.watch('./src/views/**/*.{html,php}',      gulp.series(twig    ));
   gulp.watch('./src/markdown/**/*.md',           gulp.series(twig    ));
   gulp.watch('./src/i18n/**/*.js',               gulp.series(twig    ));
   gulp.watch('./src/assets/**/*',                gulp.series(assets  ));
