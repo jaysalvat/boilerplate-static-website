@@ -122,6 +122,14 @@ function twig() {
   const mixins = require('./src/views/_mixins');
   const languages = Object.keys(config.languages || {});
   const defaultI18n = load('./src/i18n/' + languages[0] + '.js');
+  const mixinFunctions = [];
+
+  Object.keys(mixins).forEach((key) => {
+    mixinFunctions.push({
+      name: key,
+      func: mixins[key]
+    });
+  });
 
   languages.forEach((lang) => {
     let i18n, viewData;
@@ -150,20 +158,7 @@ function twig() {
         data: viewData,
         errorLogToConsole: true,
         extname: true,
-        functions: [
-          { name: 'svg',
-            func: mixins.svg
-          },
-          { name: 'markdown',
-            func: mixins.markdown
-          },
-          { name: 'route',
-            func: mixins.route
-          },
-          { name: 'routeActive',
-            func: mixins.routeActive
-          }
-        ]
+        functions: mixinFunctions
       }))
       .pipe(plugins.rename(function (path) {
         if (path.basename !== 'index') {
