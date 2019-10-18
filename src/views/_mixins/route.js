@@ -1,6 +1,10 @@
-const route = function (path = '', lang = false) {
+const route = function (path = '', lang = true) {
   let route = '';
   const data = this.context;
+
+  if (path.indexOf('http://') === 0 || path.indexOf('https://') === 0) {
+    return path;
+  }
 
   if (lang) {
     route = data.languages[data.currentLang].dir + path;
@@ -12,7 +16,7 @@ const route = function (path = '', lang = false) {
     route = '/' + route;
   }
 
-  return route;
+  return route.replace(/\/{2,}/g, "/");
 };
 
 module.exports = route;
