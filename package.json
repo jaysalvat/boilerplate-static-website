@@ -19,6 +19,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "babel-loader": "^8.2.2",
+    "bonze": "^1.5.2",
     "bootstrap": "^4.5.3",
     "browser-sync": "^2.26.13",
     "del": "^6.0.0",
@@ -56,8 +57,5 @@
     "webpack": "^5.10.0",
     "webpack-stream": "^6.1.1",
     "yargs": "^16.2.0"
-  },
-  "dependencies": {
-    "bonze": "^1.5.2"
   }
 }
