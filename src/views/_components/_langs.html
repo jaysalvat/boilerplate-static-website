@@ -1,7 +1,7 @@
 <ul>
-    {% for code, entry in languages %}
+    {% for code, lang in languages %}
     <li class="{{ currentLang == code ? 'active' : '' }}">
-        <a href="{{ route(currentPath, lang.dir) }}">{{ entry.name }}</a>
+        <a href="{{ route(currentPath, lang.dir) }}">{{ lang.name }}</a>
     </li>
     {% endfor %}
 </ul>
