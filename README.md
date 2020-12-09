@@ -24,9 +24,20 @@ Watch and open server on another port
 
     npm start -- --port 3010
 
+## Generation
+
 Generate pages or partials from templates
 
     npm run generate
+
+Generate a page from templates
+
+    npm run generate:page
+
+Generate a partial from templates
+
+    npm run generate:partial
+
 
 ## Production
 
