@@ -36,31 +36,19 @@ module.exports = function (plop) {
     prompts: [
       {
         type: 'input',
-        name: 'path',
-        message: 'Page path',
+        name: 'filename',
+        message: 'Page file name',
         default: '.'
-      },
-      // {
-      //   type: 'input',
-      //   name: 'filename',
-      //   message: 'Page file name',
-      //   default: 'index'
-      // },
-      {
-        type: 'input',
-        name: 'title',
-        message: 'Page human title',
-        default: (values) => values.filename
       },
     ],
     actions: [{
       type: 'add',
-      path: './src/views/{{ pathCase path }}/index.html',
+      path: './src/views/{{ myPathCase filename }}/index.html',
       templateFile: './templates/page/html.hbs'
     },
     {
       type: 'add',
-      path: './src/sass/pages/_{{ dashCase path }}.sass',
+      path: './src/sass/pages/_{{ dashCase filename }}.sass',
       templateFile: './templates/page/sass.hbs',
     },
     {
@@ -85,5 +73,16 @@ module.exports = function (plop) {
     });
 
     return relativePath;
+  });
+
+  // like pathCase but keep - in the path
+
+  plop.setHelper('myPathCase', function (path) {
+    return path
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .split(/[^\w-]/)
+            .join('/')
+            .replace(/\/{2,}/g, '/');
   });
 };

@@ -1,17 +1,16 @@
-{% extends "{{ relativePath path }}_layouts/_default.html" %}
+{% extends "{{ relativePath filename }}_layouts/_default.html" %}
 
 {% block globalVars %}
-    {% set id = '{{ dashCase title }}-page' %}
-    {% set title = '{{ titleCase title }} page' %}
-    {% set currentPage = '{{ dashCase title }}' %}
+    {% set id = '{{ dashCase filename }}-page' %}
+    {% set title = '{{ titleCase filename }} page' %}
+    {% set currentPage = '{{ dashCase filename }}' %}
 {% endblock %}
 
 {% block main %}
 <div class="container">
-    <h1>{{ titleCase title }}</h1>
-    <p>This is the {{ titleCase title }} page</p>
+    <h1>{{ titleCase filename }}</h1>
+    <p>This is the {{ titleCase filename }} page</p>
     <p>Template \{{ template }} [\{{ currentLang }}]</p>
-    <p>\{{ i18n.helloword }}</p>
 </div>
 {% endblock %}
 
