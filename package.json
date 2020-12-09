@@ -6,8 +6,10 @@
   "scripts": {
     "init": "./init",
     "start": "./node_modules/.bin/gulp --nosync",
+    "dev": "./node_modules/.bin/gulp",
     "build": "./node_modules/.bin/gulp build --producion",
-    "deploy": "./node_modules/.bin/gulp build --production && ./deploy"
+    "deploy": "./node_modules/.bin/gulp build --production && ./deploy",
+    "generate": "./node_modules/plop/bin/plop.js"
   },
   "author": "Jay Salvat",
   "private": true,

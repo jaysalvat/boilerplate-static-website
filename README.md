@@ -12,30 +12,26 @@ Then init the app
 
 ## Developement
 
-Build and watch
+Build, watch aand open server
 
-    gulp
+    npm start
 
-Watch and open server
+Build, watch and open server with sync between browers
 
-    gulp watch
+    npm run dev
 
 Watch and open server on another port
 
-    gulp watch --port 3010
-
-Watch and open server with no sync between browers
-
-    gulp watch --nosync
+    npm start -- --port 3010
 
 Generate pages or partials from templates
 
-    plop
+    npm run generate
 
 ## Production
 
 Build the website with minified CSS / HTML and scripts to the /dist folder.
 
-    gulp build --production
+    npm run build
 
 Deploy the /dist content on the server.
