@@ -6,8 +6,10 @@ const route = function (path = '', lang = true) {
     return path;
   }
 
-  if (lang) {
+  if (lang === true) {
     route = data.languages[data.currentLang].dir + path;
+  } else if (typeof lang === 'string') {
+    route = lang + path;
   } else {
     route = path;
   }

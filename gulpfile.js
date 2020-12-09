@@ -150,6 +150,7 @@ function twig() {
           template = template.replace(file.base, '');
           template = template.replace('.html', '');
           viewData.template = template;
+          viewData.currentPath = template.replace(/\/index$/, '');
           return cb(null, file);
         });
       }(eventStream))
