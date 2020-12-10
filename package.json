@@ -7,11 +7,12 @@
     "init": "./init",
     "start": "./node_modules/.bin/gulp --nosync",
     "dev": "./node_modules/.bin/gulp",
-    "build": "./node_modules/.bin/gulp build --producion",
+    "build": "./node_modules/.bin/gulp build --production",
     "deploy": "./node_modules/.bin/gulp build --production && ./deploy",
     "generate": "./node_modules/plop/bin/plop.js",
     "generate:page": "./node_modules/plop/bin/plop.js page",
-    "generate:partial": "./node_modules/plop/bin/plop.js partial"
+    "generate:partial": "./node_modules/plop/bin/plop.js partial",
+    "generate:component": "./node_modules/plop/bin/plop.js component"
   },
   "author": "Jay Salvat",
   "private": true,
@@ -30,6 +31,7 @@
     "event-stream": "^4.0.1",
     "exports-loader": "^1.1.1",
     "gifsicle": "^5.1.0",
+    "glob": "^7.1.6",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
     "gulp-cachebust": "0.0.11",

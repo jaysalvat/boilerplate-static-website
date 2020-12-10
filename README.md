@@ -46,3 +46,5 @@ Build the website with minified CSS / HTML and scripts to the /dist folder.
     npm run build
 
 Deploy the /dist content on the server.
+
+    npm run deploy

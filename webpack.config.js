@@ -9,17 +9,19 @@ module.exports = (argv) => {
       minimizer: [],
       splitChunks: {
         chunks: 'async',
-        minSize: 30000,
-        maxSize: 0,
+        minSize: 20000,
+        minRemainingSize: 0,
+        maxSize: 100000,
         minChunks: 1,
-        maxAsyncRequests: 5,
-        maxInitialRequests: 3,
+        maxAsyncRequests: 30,
+        maxInitialRequests: 30,
         automaticNameDelimiter: '~',
-        name: true,
+        enforceSizeThreshold: 50000,
         cacheGroups: {
-          vendors: {
+          defaultVendors: {
             test: /[\\/]node_modules[\\/]/,
-            priority: -10
+            priority: -10,
+            reuseExistingChunk: true
           },
           default: {
             minChunks: 2,
@@ -36,8 +38,10 @@ module.exports = (argv) => {
       rules: [
         {
           test: /\.js$/,
-          loader: 'babel-loader?harmony',
-          options: {}
+          use: {
+            loader: 'babel-loader?harmony',
+            options: {}
+          }
         }
       ]
     }

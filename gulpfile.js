@@ -4,16 +4,19 @@ const
   load          = require('require-reload')(require),
   extend        = require('lodash.merge'),
   del           = require('del'),
+  fs           = require('fs'),
   gulp          = require('gulp'),
   yargs         = require('yargs'),
   browserSync   = require('browser-sync'),
   plugins       = require('gulp-load-plugins')(),
   vinylNamed    = require('vinyl-named'),
+  webpack 	    = require('webpack');
   webpackStream = require('webpack-stream'),
   eventStream   = require('event-stream'),
   mergeStream   = require('merge-stream'),
   CacheBuster   = require('gulp-cachebust'),
-  php    = require('gulp-connect-php'),
+  php           = require('gulp-connect-php'),
+  glob          = require("glob"),
   config        = require('./gulpfile.config');
 
 const cachebuster = new CacheBuster(config.cachebuster);
@@ -101,11 +104,11 @@ function js() {
     }));
 }
 
-function webpack() {
-  return gulp.src('src/js/app*.js')
+function webpackize() {
+  return gulp.src('./src/js/app*.js')
     .pipe(vinylNamed())
     .pipe(
-      webpackStream(require('./webpack.config.js')(argv))
+      webpackStream(require('./webpack.config.js')(argv), webpack)
         .on('error', function handleError() {
           this.emit('end');
         })
@@ -114,6 +117,20 @@ function webpack() {
     .pipe(browserSync.stream({
       match: '**/*.js'
     }));
+}
+
+function generateSassImports(cb) {
+  glob('./src/views/**/*.{sass,scss,css}', function (err, files) {
+    files = files.map(function(file) {
+      file = file.replace('./src/', '../');
+      file = '@import "' + file + '"';
+      return file;
+    });
+
+    fs.writeFileSync('./src/sass/_generated.sass', files.join('\n'), 'utf8');
+
+    if (cb) cb();
+  });
 }
 
 function twig() {
@@ -226,17 +243,18 @@ function watch(next) {
     });
   }
 
-  gulp.watch('./src/img/**/*',                   gulp.series(img     ));
-  gulp.watch('./src/js/**/*.js',                 gulp.series(webpack ));
-  gulp.watch('./src/sass/**/*.{css,scss,sass}',  gulp.series(sass    ));
-  gulp.watch('./src/views/**/*.{html,php}',      gulp.series(twig    ));
-  gulp.watch('./src/markdown/**/*.md',           gulp.series(twig    ));
-  gulp.watch('./src/i18n/**/*.js',               gulp.series(twig    ));
-  gulp.watch('./src/assets/**/*',                gulp.series(assets  ));
+  gulp.watch('./src/img/**/*',                          gulp.series(img        ));
+  gulp.watch('./src/js/**/*.js',                        gulp.series(webpackize ));
+  gulp.watch('./src/{sass,views}/**/*.{css,scss,sass}', gulp.series(sass       ));
+  gulp.watch('./src/views/**/*.{html,php}',             gulp.series(twig       ));
+  gulp.watch('./src/markdown/**/*.md',                  gulp.series(twig       ));
+  gulp.watch('./src/i18n/**/*.js',                      gulp.series(twig       ));
+  gulp.watch('./src/assets/**/*',                       gulp.series(assets     ));
+
   return next();
 }
 
-const bundle = gulp.series(clean, assets, img, sass, webpack, twig);
+const bundle = gulp.series(clean, assets, img, sass, webpackize, twig);
 
 exports.assets = assets;
 exports.js = js;
@@ -246,3 +264,4 @@ exports.imgOptimTinyPNG = imgOptimTinyPNG;
 exports.default = gulp.series(bundle, build, watch);
 exports.build = gulp.series(bundle, build);
 exports.watch = gulp.series(serve, watch);
+exports.generateSassImports = generateSassImports;

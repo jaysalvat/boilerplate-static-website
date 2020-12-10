@@ -1,4 +1,49 @@
+const gulpTasks = require('./gulpfile');
+
 module.exports = function (plop) {
+
+  // Components
+
+  plop.setGenerator('component', {
+    description: 'Generate a HTML component',
+    prompts: [
+      {
+        type: 'input',
+        name: 'filename',
+        message: 'Component file name',
+        default: 'component'
+      },
+      {
+        type: 'confirm',
+        name: 'sass',
+        message: 'Add a SASS file ?',
+        default: true
+      }
+    ],
+    actions: function (data) {
+      const actions = [];
+
+      actions.push({
+        type: 'add',
+        path: './src/views/_components/_{{ dashCase filename }}.html',
+        templateFile: './templates/component/html.hbs'
+      });
+
+      if (data.sass) {
+        actions.push({
+          type: 'add',
+          path: './src/views/_components/_{{ dashCase filename }}.sass',
+          templateFile: './templates/component/sass.hbs'
+        });
+        actions.push(() => {
+          gulpTasks.generateSassImports();
+          return 'SASS generated';
+        });
+      }
+
+      return actions;
+    }
+  });
 
   // Partials
 
@@ -10,23 +55,37 @@ module.exports = function (plop) {
         name: 'filename',
         message: 'Partial file name',
         default: 'partial'
+      },
+      {
+        type: 'confirm',
+        name: 'sass',
+        message: 'Add a SASS file ?',
+        default: true
       }
     ],
-    actions: [{
-      type: 'add',
-      path: './src/views/_partials/_{{ dashCase filename }}.html',
-      templateFile: './templates/partial/html.hbs'
-    },
-    {
-      type: 'add',
-      path: './src/sass/partials/{{ dashCase filename }}.sass',
-      templateFile: './templates/partial/sass.hbs'
-    },
-    {
-      type: 'append',
-      path: './src/sass/styles.sass',
-      templateFile: './templates/partial/sass-import.hbs'
-    }]
+    actions: function (data) {
+      const actions = [];
+
+      actions.push({
+        type: 'add',
+        path: './src/views/_partials/_{{ dashCase filename }}.html',
+        templateFile: './templates/partial/html.hbs'
+      });
+
+      if (data.sass) {
+        actions.push({
+          type: 'add',
+          path: './src/views/_partials/_{{ dashCase filename }}.sass',
+          templateFile: './templates/partial/sass.hbs'
+        });
+        actions.push(() => {
+          gulpTasks.generateSassImports();
+          return 'SASS generated';
+        });
+      }
+
+      return actions;
+    }
   });
 
   // Page
@@ -40,22 +99,36 @@ module.exports = function (plop) {
         message: 'Page file name',
         default: '.'
       },
+      {
+        type: 'confirm',
+        name: 'sass',
+        message: 'Add a SASS file ?',
+        default: true
+      }
     ],
-    actions: [{
-      type: 'add',
-      path: './src/views/{{ myPathCase filename }}/index.html',
-      templateFile: './templates/page/html.hbs'
-    },
-    {
-      type: 'add',
-      path: './src/sass/pages/_{{ dashCase filename }}.sass',
-      templateFile: './templates/page/sass.hbs',
-    },
-    {
-      type: 'append',
-      path: './src/sass/styles.sass',
-      templateFile: './templates/page/sass-import.hbs'
-    }]
+    actions: function (data) {
+      const actions = [];
+
+      actions.push({
+        type: 'add',
+        path: './src/views/{{ myPathCase filename }}/index.html',
+        templateFile: './templates/page/html.hbs'
+      });
+
+      if (data.sass) {
+        actions.push({
+          type: 'add',
+          path: './src/views/{{ myPathCase filename }}/index.sass',
+          templateFile: './templates/page/sass.hbs',
+        });
+        actions.push(() => {
+          gulpTasks.generateSassImports();
+          return 'SASS generated';
+        });
+      }
+
+      return actions;
+    }
   });
 
   // Helpers
