@@ -88,22 +88,6 @@ function sass() {
     }));
 }
 
-function js() {
-  gulp.src([ './src/js/vendors/*' ])
-    .pipe(gulp.dest('./dist/js/vendors/'));
-
-  return gulp.src([ './src/js/**/*.js', '!src/js/vendors/*' ])
-    .pipe(plugins.plumber())
-    .pipe(plugins.sourcemaps.init())
-    .pipe(plugins.concat('bundle.js'))
-    .pipe(plugins.if(argv.production, plugins.uglify(config.uglify)))
-    .pipe(plugins.sourcemaps.write('.'))
-    .pipe(gulp.dest('./dist/js'))
-    .pipe(browserSync.stream({
-      match: '**/*.js'
-    }));
-}
-
 function webpackize() {
   return gulp.src('./src/js/app*.js')
     .pipe(vinylNamed())
@@ -257,7 +241,6 @@ function watch(next) {
 const bundle = gulp.series(clean, assets, img, sass, webpackize, twig);
 
 exports.assets = assets;
-exports.js = js;
 exports.img = img;
 exports.imgOptim = imgOptim;
 exports.imgOptimTinyPNG = imgOptimTinyPNG;
